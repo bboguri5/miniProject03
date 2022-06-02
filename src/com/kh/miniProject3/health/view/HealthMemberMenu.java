@@ -89,7 +89,7 @@ public class HealthMemberMenu {
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
         for(HealthMember m : hmc.printAll())
         {
-            m.inform();
+            System.out.println(m.inform());
         }
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println();
@@ -110,8 +110,8 @@ public class HealthMemberMenu {
     public void searchMember() {
 
         System.out.println(" ===================== 회원검색 ===================== ");
-        System.out.println(" 1. 이름 검색");
-        System.out.println(" 2. 고객코드 검색");
+        System.out.println(" 1. 이름으로 검색");
+        System.out.println(" 2. 고객코드로 검색");
 
         int input = inputInt("메뉴 입력 : ");
     }
@@ -126,43 +126,91 @@ public class HealthMemberMenu {
 
     public void updateMember() {
 
-        System.out.println(" ===================== 회원수정 ===================== ");
-        String[] updateMembers = {"1. 이름 수정", "2. 나이 수정", "3. 성별 수정", "4. 직업 수정", "5. 시작날짜 수정", "6. 개월수 수정", "0. 이전으로 가기", "메인으로 가기(메뉴 제외하고 아무숫자 입력해주세요)"};
+        String str = "";
+        HealthMember hm = getTarget();
 
-        for(String menuStr : updateMembers)
+        while (true)
         {
-            System.out.println(menuStr);
+            System.out.println(" ===================== 회원수정 ===================== ");
+            String[] updateMembers = {"1. 이름 수정", "2. 나이 수정", "3. 성별 수정", "4. 직업 수정", "5. 시작날짜 수정", "6. 개월수 수정", "0. 이전으로 가기"};
+
+            for (String menuStr : updateMembers) {
+                System.out.println(menuStr);
+            }
+
+            int input = inputInt(" 메뉴 입력 : ");
+
+            switch (input) {
+                case 1:
+                    str = hmc.updateName(hm,inputStr(" - 수정 할 이름 : ")) ? hm.inform() : "수정이 실패하였습니다.";
+                    break;
+                case 2:
+                    str = hmc.updateAge(hm,inputInt(" - 수정 할 나이 : ")) ? hm.inform() : "수정이 실패하였습니다.";
+                    break;
+                case 3:
+                    while(true)
+                    {
+                        char newGender = inputStr(" - 수정 할 성별 : ").charAt(0);
+                        if(newGender == '남' || newGender == '여'){
+                            str = hmc.updateGender(hm,newGender) ? hm.inform() : "수정이 실패하였습니다.";
+                            break;
+                        }
+                        else
+                            System.out.println("다시 입력해주세요.");
+                    }
+                    break;
+                case 4:
+                    str = hmc.updateJob(hm,inputStr(" - 수정 할 직업 : ")) ? hm.inform() : "수정이 실패하였습니다.";
+                    break;
+                case 5:
+                    str = hmc.updateStart(hm,inputInt(" - 수정 할 시작날짜 : ")) ? hm.inform() : "수정이 실패하였습니다.";
+                    break;
+                case 6:
+                    str = hmc.updateMonth(hm,inputInt(" - 수정 할 개월수 : ")) ? hm.inform() : "수정이 실패하였습니다.";
+                    break;
+                case 0:
+                    administrateMember();
+                    break;
+                default:
+                    System.out.println("잘못 입력되었습니다. 다시 입력해주세요.");
+            }
+            System.out.println("수정 결과 : " + str);
         }
 
-        int input = inputInt(" 메뉴 입력 : ");
-        switch (input)
-        {
-            case 1 :
+    }
+    public void checkName()
+    {
+        String name = "";
+        while(true){
+            name = inputStr(" - 이름 : ");
+            if(!hmc.checkInput(name)) {
+                System.out.println("존재하지 않는 이름입니다. 다시 입력해주세요.");
+                continue;
+            }
+            for(HealthMember m : hmc.searchName(name)){
+                System.out.println(m.inform());
+            }
+            break;
         }
-
-
     }
+    public String checkId()
+    {
+        String id = "";
 
-    public void updateName() {
-
+        while(true){
+            id = inputStr(" - 아이디 : ");
+            if(!hmc.checkInput(id))
+                System.out.println("존재하지 않는 코드입니다. 다시 입력해주세요.");
+            else
+                break;
+        }
+        return id;
     }
-
-    public void updateGender() {
-
+    public HealthMember getTarget()
+    {
+        checkName();
+        return hmc.searchId(checkId());
     }
-
-    public void updateAge() {
-
-    }
-
-    public void updateJob() {
-
-    }
-
-    public void updateStart() {
-
-    }
-
     public void deleteMember() {
 
     }
