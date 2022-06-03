@@ -1,0 +1,82 @@
+
+
+===============health Member===============
+code : String
+name : String
+gender : char
+age : int
+job : String
+Start : int / String
+Last : int / String
+locker : int
+
+생성자
+생성자(정보)
+get/set
+inform
+
+
+
+
+================health Member Menu===============
+- sc : Scanner = new Scanner(System.in)
+"- healthMemberController mc
+= new healthMemberController"
+
+생성자
+실행되는메서드  mainMenu() : void
+insertMember() : void
+searchMember() : void
+searchName() : void
+updateMember() : void ( 수정매뉴)
+updateName():void
+updateGender():void
+updateAge():void
+updateJob():void
+updateStart():void
+deleteMember() : void
+deleteOne() : void
+printAll() : void
+islocker() : void
+
+
+===============health MemberController================
+- Member[] m = new Member[SIZE] SIZE : int = 10
+
+* existMemberNum() : int
+* insertMember(매개변수)
+* searchId(id:String)
+* searchName(name:String) : Member[]updateMember() : void ( 수정매뉴)
+* updateName():Boolean
+* updateGender(): Boolean
+* updateAge():Boolean
+* updateJob():Boolean
+* updateStart():Boolean
+* deleteMember() : Boolean
+* printAll() : Member[]
+checklocker() : Boolean
+
+
+1. 회원관리
+ - 1. 회원등록
+ - 2. 회원수정 - 회원정보 전체 수정
+ - 3. 회원검색
+ - 4. 회원탈퇴
+2. 락커정보
+3. 모든회원정보
+4. 프로그램종료
+
+
+1. 회원등록
+- 고객코드아이디 / 이름 / 성별 / 나이 / 직업 / 시작날짜 / 끝나는 날짜
+2. 회원수정 - 고객코드 빼고
+3. 회원검색 - 락커가 표시 .
+ - 이름검색
+ - 고객코드아이디 검색
+4.  회원탈퇴
+ - 고객코드아이디 / 이름
+
+2. 락커정보
+ - 1. 락커등록
+ - 2. 락커삭제
+- 비어있는 락커 번호들
