@@ -47,6 +47,7 @@ public class HealthMemberController {
         HealthMember[] returned = new HealthMember[count];
         for (int i = 0; i < returned.length; i++) {
             returned[i] = temp[i];
+            returned[i].inform();
         }
         return returned;
     }
@@ -91,69 +92,106 @@ public class HealthMemberController {
     // 멤버 정보 수정
 
     //이름 수정
-    public boolean updateName(String id, String newName) {
+    public boolean updateName(String name ,String id, String newName) {
         for (HealthMember healthMember : m) {
             if(healthMember == null) break;
-            // 입력 아이디가 있다면 입력한 이름으로 바꾸기
-            if(id.equals(healthMember.getId())) {
+            // 입력 이름이 있다면 입력한 이름으로 바꾸기
+            if (searchName(name).length == 1) {
                 healthMember.setName(newName);
                 return true;
+            }
+            // 같은 이름인 멤버가 있으면
+            else {
+                if (id.equals(healthMember.getId())) {
+                    healthMember.setName(newName);
+                    return true;
+                }
+                return false;
             }
         }
         return false;
     }
 
     //성별 수정
-    public boolean updateGender(String id, char newGender) {
+    public boolean updateGender(String name, String id, char newGender) {
 
         for (HealthMember healthMember : m) {
             if(healthMember == null) break;
-            // 입력 아이디가 있다면 입력한 성별으로 바꾸기
-            if(id.equals(healthMember.getId())) {
+            // 입력 이름이 있다면 입력한 이름으로 바꾸기
+            if (searchName(name).length == 1) {
                 healthMember.setGender(newGender);
                 return true;
+            }
+            // 같은 이름인 멤버가 있으면
+            else {
+                if (id.equals(healthMember.getId())) {
+                    healthMember.setGender(newGender);
+                    return true;
+                }
+                return false;
             }
         }
         return false;
     }
 
     // 나이 수정
-    public boolean updateAge(String id, int newAge) {
-
+    public boolean updateAge(String name, String id, int newAge) {
         for (HealthMember healthMember : m) {
             if(healthMember == null) break;
-            // 입력 아이디가 있다면 입력한 나이로 바꾸기
-            if(id.equals(healthMember.getId())) {
+            // 입력 이름이 있다면 입력한 이름으로 바꾸기
+            if (searchName(name).length == 1) {
                 healthMember.setAge(newAge);
                 return true;
+            }
+            // 같은 이름인 멤버가 있으면
+            else {
+                if (id.equals(healthMember.getId())) {
+                    healthMember.setAge(newAge);
+                    return true;
+                }
+                return false;
             }
         }
         return false;
     }
 
     // 직업 수정
-    public boolean updateJob(String id, String  newJob) {
-
+    public boolean updateJob(String name, String id, String  newJob) {
         for (HealthMember healthMember : m) {
             if(healthMember == null) break;
-            // 입력 아이디가 있다면 입력한 직업으로 바꾸기
-            if(id.equals(healthMember.getId())) {
+            // 입력 이름이 있다면 입력한 이름으로 바꾸기
+            if (searchName(name).length == 1) {
                 healthMember.setJob(newJob);
                 return true;
+            }
+            // 같은 이름인 멤버가 있으면
+            else {
+                if (id.equals(healthMember.getId())) {
+                    healthMember.setJob(newJob);
+                    return true;
+                }
+                return false;
             }
         }
         return false;
     }
 
     // 시작일 수정
-    public boolean updateStart(String id, int newDay) {
-
+    public boolean updateStart(String name, String id, int newDay) {
         for (HealthMember healthMember : m) {
             if(healthMember == null) break;
-            // 입력 아이디가 있다면 입력한 날짜로 바꾸기
-            if(id.equals(healthMember.getId())) {
+            // 입력 이름이 있다면 입력한 이름으로 바꾸기
+            if (searchName(name).length == 1) {
                 healthMember.setStart(newDay);
                 return true;
+            }
+            // 같은 이름인 멤버가 있으면
+            else {
+                if (id.equals(healthMember.getId())) {
+                    healthMember.setStart(newDay);
+                    return true;
+                }
+                return false;
             }
         }
         return false;
@@ -161,7 +199,7 @@ public class HealthMemberController {
 
 
     // 멤버 삭제
-    public boolean delete(String id) {
+    public boolean delete(String name, String id) {
         // 입력한 아이디의 인덱스
         int idx = findIndexById(id);
         // 실제 멤버 수
@@ -180,36 +218,40 @@ public class HealthMemberController {
 
     // 락커 자리 남은 갯수
     public int lockerNum() {
-        int count = SIZE- existMemberNum();
+        int count = SIZE;
         for (HealthMember healthMember : m) {
             if(healthMember == null) break;
             if (healthMember.getLocker() != 0) {
-                count++;
+                count--;
             }
         }
         return count;
     }
 
-    // 락커 번호 리스트
-    public String lockerList() {
-        String list = "";
-        int count = 1;
+    /*
+     락커 번호 리스트
+    public int[] lockerList() {
+        int[] list = new int[lockerNum()];
+        int count = 0;
+
         for (HealthMember healthMember : m) {
-            if (healthMember.getLocker() > 0 || healthMember == null) {
+            if (healthMember.getLocker() == 0) {
+                String id = healthMember.getId();
+                list[count++] = findIndexById(id);
+            } else if (healthMember == null) {
 
             }
         }
-         return list;
-        /*
-        for (int i = 0; i < m.length; i++) {
-            if (m[i].getLocker() > 0 || m[i] == null) {
-                list.append(i + 1);
+
+        for (int i = 0; i < SIZE; i++) {
+            if (m[i].getLocker() == 0 || m[i] == null) {
+                list[count++] = i+1;
             }
         }
-        return list.toString()
-         */
+        return list;
     }
 
+    */
 
     // 락커 등록
     public boolean lockerInsert(String name, String id, int lockerNum) {
@@ -236,9 +278,6 @@ public class HealthMemberController {
     }
 
     // 락커 삭제
-
-
-
 
 
 }

@@ -96,6 +96,7 @@ public class HealthMemberMenu {
     }
 
     private void delete() {
+        String targetName = inputStr("\n# 삭제 대상 이름:");
         String targetId = inputStr("\n# 삭제 대상 아이디:");
 
         if (mc.findIndexById(targetId) != -1) {
@@ -104,7 +105,7 @@ public class HealthMemberMenu {
 
             switch (answer.toUpperCase().charAt(0)) {
                 case 'Y': case 'ㅛ':
-                    mc.delete(targetId);
+                    mc.delete(targetName, targetId);
                     System.out.printf("\n- [%s]멤버님의 데이터가 삭제되었습니다.\n", targetId);
                     break;
                 case 'N': case 'ㅜ':

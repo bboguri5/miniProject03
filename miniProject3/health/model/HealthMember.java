@@ -25,6 +25,7 @@ public class HealthMember {
         this.job = job;
         this.start = start;
         this.month = month;
+        this.locker = 0;
     }
 
 
