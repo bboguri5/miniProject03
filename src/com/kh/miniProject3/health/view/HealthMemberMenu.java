@@ -4,6 +4,7 @@ import com.kh.miniProject3.health.controller.HealthMemberController;
 import com.kh.miniProject3.health.model.vo.HealthMember;
 
 import java.lang.reflect.Member;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class HealthMemberMenu {
@@ -112,22 +113,37 @@ public class HealthMemberMenu {
         System.out.println(" ===================== 회원검색 ===================== ");
         System.out.println(" 1. 이름으로 검색");
         System.out.println(" 2. 고객코드로 검색");
+        System.out.println(" 0. 이전으로 가기");
 
         int input = inputInt("메뉴 입력 : ");
+
+        switch (input)
+        {
+            case 1 : searchName();break;
+            case 2 : searchId(); break;
+            default: break;
+        }
+
     }
 
     public void searchName() {
-
+        for(HealthMember m : hmc.searchName(inputStr(" - 이름 : ")))
+        {
+            System.out.println(m.inform());
+        }
     }
 
     public void searchId() {
-
+        System.out.println(hmc.searchId(inputStr(" - 아이디 : ")).inform());
     }
 
     public void updateMember() {
 
         String str = "";
         HealthMember hm = getTarget();
+
+        if(hm == null)
+            return;
 
         while (true)
         {
@@ -171,53 +187,58 @@ public class HealthMemberMenu {
                 case 0:
                     administrateMember();
                     break;
-                default:
-                    System.out.println("잘못 입력되었습니다. 다시 입력해주세요.");
             }
             System.out.println("수정 결과 : " + str);
         }
 
     }
-    public void checkName()
+    public String getId()
     {
         String name = "";
-        while(true){
-            name = inputStr(" - 이름 : ");
-            if(!hmc.checkInput(name)) {
-                System.out.println("존재하지 않는 이름입니다. 다시 입력해주세요.");
-                continue;
-            }
-            for(HealthMember m : hmc.searchName(name)){
+        String id = "";
+        name = inputStr(" - 이름 : ");
+        HealthMember[] members = hmc.searchName(name);
+        if(members.length == 0)
+        {
+            System.out.println("존재하지 않는 이름입니다. 다시 입력해주세요.");
+            return "";
+        }
+        if(members.length > 1)
+        {
+            for(HealthMember m : members)
+            {
                 System.out.println(m.inform());
             }
-            break;
-        }
-    }
-    public String checkId()
-    {
-        String id = "";
 
-        while(true){
             id = inputStr(" - 아이디 : ");
+
             if(!hmc.checkInput(id))
+            {
                 System.out.println("존재하지 않는 코드입니다. 다시 입력해주세요.");
-            else
-                break;
+                return "";
+            }
+            return id;
         }
-        return id;
+        return members[0].getId();
     }
+
     public HealthMember getTarget()
     {
-        checkName();
-        return hmc.searchId(checkId());
+        String id = getId();
+        if(id.length() == 0)
+            return null;
+
+        return hmc.searchId(id);
     }
     public void deleteMember() {
-
+        HealthMember hm = getTarget();
+        if(hm == null)
+            return;
+        hmc.deleteOne(hm.getId());
+        printAll();
     }
 
-    public void deleteOne() {
 
-    }
 
 
 }

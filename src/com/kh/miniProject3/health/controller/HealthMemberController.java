@@ -3,6 +3,7 @@ package com.kh.miniProject3.health.controller;
 import com.kh.miniProject3.health.model.vo.HealthMember;
 import com.kh.miniProject3.health.view.HealthMemberMenu;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Member;
 import java.util.Arrays;
 
@@ -15,6 +16,8 @@ public class HealthMemberController {
         hm[0] = new HealthMember(1,"황정아",'F',31,"무직",20220301,400);
         hm[1] = new HealthMember(2,"손성빈",'M',22,"회사원",20220101,300);
         hm[2] = new HealthMember(3,"최성렬",'M',23,"회사원",20220121,400);
+        hm[3] = new HealthMember(4,"최성렬",'M',23,"회사원",20220121,400);
+
     }
 
     public boolean checkInput(String input)
@@ -63,14 +66,10 @@ public class HealthMemberController {
 
         for (int i = 0; i < length ; i++) {
             if(hm[i].getName().equals(name))
-            {
-                members[i] = hm[i];
-                count++;
-            }
+                members[count++] = hm[i];
         }
 
         HealthMember[] resultM = new HealthMember[count];
-
         for (int i = 0; i < count ; i++) {
             resultM[i] = members[i];
         }
@@ -134,13 +133,28 @@ public class HealthMemberController {
         }
         return false;
     }
-    public boolean deleteMember()
-    {
-        return true;
+    public int findIndexById(String id) {
+        int index = -1;
+        for (int i = 0; i < existHealthMemberNum(); i++) {
+            if (id.equals(hm[i].getId())) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
-    public void deleteOne()
+    public boolean deleteOne(String id)
     {
-
+        int index = findIndexById(id);
+        if (index != -1) {
+            int count = existHealthMemberNum();
+            for (int i = index; i < count - 1; i++) {
+                hm[i] = hm[i+1];
+            }
+            hm[count - 1] = null;
+            return true;
+        }
+        return false;
     }
     public HealthMember[] printAll()
     {
