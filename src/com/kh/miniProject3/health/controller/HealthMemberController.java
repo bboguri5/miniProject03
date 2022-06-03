@@ -1,36 +1,21 @@
 package com.kh.miniProject3.health.controller;
 
 import com.kh.miniProject3.health.model.vo.HealthMember;
-import com.kh.miniProject3.health.view.HealthMemberMenu;
-
-import java.lang.reflect.Array;
-import java.lang.reflect.Member;
-import java.util.Arrays;
 
 public class HealthMemberController {
-    private int SIZE = 10;
+    public static final int SIZE = 10;
     HealthMember[] hm = new HealthMember[SIZE];
 
     public HealthMemberController() {
 
-        hm[0] = new HealthMember(1,"황정아",'F',31,"무직",20220301,400);
+        hm[0] = new HealthMember(1,"황정아",'F',31,"무직",20220301,1200);
         hm[1] = new HealthMember(2,"손성빈",'M',22,"회사원",20220101,300);
         hm[2] = new HealthMember(3,"최성렬",'M',23,"회사원",20220121,400);
         hm[3] = new HealthMember(4,"최성렬",'M',23,"회사원",20220121,400);
 
     }
 
-    public boolean checkInput(String input)
-    {
-        int length = existHealthMemberNum();
-        for (int i = 0; i < length; i++) {
-            if(hm[i].getId().equals(input) || hm[i].getName().equals(input))
-                return true;
-        }
-        return false;
-    }
     public int existHealthMemberNum(){
-
         int count = 0;
         for(HealthMember m : hm)
         {
@@ -38,7 +23,6 @@ public class HealthMemberController {
                 break;
             count++;
         }
-
         return count;
     };
 
@@ -46,19 +30,18 @@ public class HealthMemberController {
     {
        int count = existHealthMemberNum();
        hm[count] = new HealthMember(count+1,name,gender,age,job,start,month);
+
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf(" %s 회원님의 정보가 등록되었습니다. \n",name);
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
     }
 
     public HealthMember searchId(String id){
-        int length = existHealthMemberNum();
-
-        for (int i = 0; i <length ; i++) {
-            if(hm[i].getId().equals(id))
-                return hm[i];
-        }
-        return null;
+        int index = findIndexById(id);
+        return (index != -1) ? hm[index] : null;
     }
 
-    public HealthMember[] searchName(String name)
+    public HealthMember[] searchName(String name) // 동명인 가져오는 함수 배열
     {
         int count = 0;
         int length = existHealthMemberNum();
@@ -75,9 +58,6 @@ public class HealthMemberController {
         }
         return resultM;
     }
-
-
-
 
     public boolean updateName(HealthMember m , String newName)
     {

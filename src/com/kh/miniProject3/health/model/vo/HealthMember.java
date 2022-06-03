@@ -30,6 +30,11 @@ public class HealthMember {
     public String inform()
     {
         String lock = locker == 0 ? "무" : String.valueOf(locker);
+        int last = start+month;
+        int m = (last / 100) % 100;
+        if(m > 12) {
+            last = start + 10000 + month - 1200;
+        }
         return String.format("[ 고객코드 : %s | 이름 : %s | 성별 : %s | 나이 : %d | 직업 : %s | 시작날짜 %d | 마지막날짜 : %d | 락커유무 : %s ] \n"
                 ,id,name,gender,age,job,start,last,lock);
     }

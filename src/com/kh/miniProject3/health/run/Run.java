@@ -1,11 +1,11 @@
 package com.kh.miniProject3.health.run;
 
-import com.kh.miniProject3.health.view.HealthMemberMenu;
+import com.kh.miniProject3.health.view.HealthMenu;
 
 public class Run {
     public static void main(String[] args) {
 
-        HealthMemberMenu hmm = new HealthMemberMenu();
+        HealthMenu hmm = new HealthMenu();
         hmm.mainMenu();
     }
 }
