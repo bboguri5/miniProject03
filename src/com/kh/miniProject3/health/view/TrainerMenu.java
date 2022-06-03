@@ -1,14 +1,13 @@
-package com.kh.hw.miniProject3.view;
+package com.kh.miniProject3.health.view;
 
-import com.kh.hw.miniProject3.controller.TrainerController;
-import com.kh.hw.miniProject3.model.vo.Trainer;
+import com.kh.miniProject3.health.controller.TrainerController;
+import com.kh.miniProject3.health.model.vo.Trainer;
 
 import java.util.Scanner;
 
 public class TrainerMenu {
 
     private Scanner sc = new Scanner(System.in);
-
     private TrainerController tc = new TrainerController();
 
     // 4번
@@ -18,7 +17,7 @@ public class TrainerMenu {
         System.out.println("# 2. 직원삭제");
         System.out.println("# 3. 직원정보");
         System.out.println("# 4. 급여관리");
-        System.out.println("# 5. 출퇴근기록");
+        System.out.println("# 5. 근태관리");
         System.out.println("# 0. 메인으로 돌아가기");
 
         int menu = inputNumber("- 메뉴 입력: ");
@@ -42,7 +41,6 @@ public class TrainerMenu {
                 return;
             default:
                 System.out.println("메뉴를 잘못 입력했습니다.");
-
         }
     }
 
@@ -53,8 +51,8 @@ public class TrainerMenu {
 
         String name = inputStr("이름: ");
         int age = inputNumber("나이: ");
-        String number = inputStr("번호: ");
-        String career = inputStr("경력: ");
+        String number = inputStr("휴대폰 번호: ");
+        int career = inputNumber("경력: ");
 
         tc.insertTrainer(name, age, number, career);
 

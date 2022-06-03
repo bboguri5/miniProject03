@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class HealthMenu {
     Scanner sc = new Scanner(System.in);
     HealthMemberController hmc;
+    TrainerMenu tm = new TrainerMenu();
 
     public HealthMenu() {
         hmc = new HealthMemberController();
@@ -15,12 +16,14 @@ public class HealthMenu {
 
     public void mainMenu() {
 
+        // 회원관리
+        // 직원관리
         System.out.println(" ================ 3 조 헬스장 관리 프로그램 ================ ");
         System.out.printf(" # 현재 보유 회원은 %d명 입니다 \n", hmc.existHealthMemberNum());
 
         while (true) {
             System.out.println(" ===================== Main Menu ===================== ");
-            String[] mainmenu = {"# 1. 회원관리", "# 2. 락커정보", "# 3. 모든회원정보", "# 0. 프로그램 종료"};
+            String[] mainmenu = {"# 1. 회원관리", "# 2. 직원관리", "# 0. 프로그램 종료"};
 
             for (String menuStr : mainmenu) {
                 System.out.println(menuStr);
@@ -33,11 +36,8 @@ public class HealthMenu {
                     administrateMember();
                     break; // 1. 회원관리
                 case 2:
-                    administrateLocker();
-                    break; // 2. 락커정보
-                case 3:
-                    printAll();
-                    break; // 3. 모든회원정보
+                    tm.trainerManagement();
+                    break; // 2. 직원관리
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
@@ -67,7 +67,7 @@ public class HealthMenu {
     }
 
     public void administrateMember() {
-        String[] memberManagerMenu = {"# 1. 회원등록", "# 2. 회원수정", "# 3. 회원검색", "# 4. 회원탈퇴", "# 0. 메인메뉴로 돌아가기"};
+        String[] memberManagerMenu = {"# 1. 회원등록", "# 2. 회원수정", "# 3. 회원검색", "# 4. 회원탈퇴","# 0. 메인메뉴로 돌아가기"};
 
             System.out.println(" ===================== 회원관리 ===================== ");
 
@@ -89,6 +89,8 @@ public class HealthMenu {
                 case 4:
                     deleteMember();
                     break;
+                case 5:
+                    //락커정보()
                 case 0:
                     break;
                 default:

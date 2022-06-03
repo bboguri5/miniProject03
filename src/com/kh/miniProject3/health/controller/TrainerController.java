@@ -1,6 +1,5 @@
-package com.kh.hw.miniProject3.controller;
-
-import com.kh.hw.miniProject3.model.vo.Trainer;
+package com.kh.miniProject3.health.controller;
+import com.kh.miniProject3.health.model.vo.Trainer;
 
 public class TrainerController {
 
@@ -9,9 +8,9 @@ public class TrainerController {
     public static final int SIZE = 5;
 
     public TrainerController (){
-        t[0] = new Trainer("김철수", 26, "01012345678", "3년");
-        t[1] = new Trainer("김홍수", 31, "01043215678", "6년");
-        t[2] = new Trainer("김남수", 36, "01056781234", "10년");
+        t[0] = new Trainer("김철수", 26, "01012345678", 3);
+        t[1] = new Trainer("김홍수", 31, "01043215678", 6);
+        t[2] = new Trainer("김남수", 36, "01056781234", 10);
     }
     // 직원수를 세어준다
     public int existTrainerNum() {
@@ -25,7 +24,7 @@ public class TrainerController {
         return count;
     }
     // 회원정보 저장한다
-    public void insertTrainer(String name, int age, String number, String carrer) {
+    public void insertTrainer(String name, int age, String number, int carrer) {
         int count = existTrainerNum();
         t[count] = new Trainer(name, age, number, carrer);
     }

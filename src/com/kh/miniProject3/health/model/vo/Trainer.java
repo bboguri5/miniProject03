@@ -1,17 +1,17 @@
-package com.kh.hw.miniProject3.model.vo;
+package com.kh.miniProject3.health.model.vo;
 
 public class Trainer {
 
     private String name;
     private int age;
     private String number;
-    private String career;
+    private int career;
 
     public Trainer() {
 
     }
 
-    public Trainer(String name, int age, String number, String career) {
+    public Trainer(String name, int age, String number, int career) {
         this.name = name;
         this.age = age;
         this.number = number;
@@ -48,11 +48,11 @@ public class Trainer {
         this.number = number;
     }
 
-    public String getCareer() {
+    public int getCareer() {
         return career;
     }
 
-    public void setCareer(String career) {
+    public void setCareer(int career) {
         this.career = career;
     }
 }
