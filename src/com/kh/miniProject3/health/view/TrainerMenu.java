@@ -3,6 +3,8 @@ package com.kh.miniProject3.health.view;
 import com.kh.miniProject3.health.controller.TrainerController;
 import com.kh.miniProject3.health.model.vo.Trainer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class TrainerMenu {
@@ -32,10 +34,10 @@ public class TrainerMenu {
                 informationTrainer();
                 break;
             case 4:
-//                managementPayroll();
+                managementPayroll();
                 break;
             case 5:
-//                recordCommuting
+                checkManagement();
                 break;
             case 0:
                 return;
@@ -53,8 +55,8 @@ public class TrainerMenu {
         int age = inputNumber("나이: ");
         String number = inputStr("휴대폰 번호: ");
         int career = inputNumber("경력: ");
-
-        tc.insertTrainer(name, age, number, career);
+        int timePay = inputNumber("시급 : ");
+        tc.insertTrainer(name, age, number, career, timePay);
 
         System.out.println("\n# 트레이너등록 성공!");
     }
@@ -79,6 +81,49 @@ public class TrainerMenu {
 
     }
 
+    //4-4
+    public void managementPayroll()
+    {
+        String name = inputStr(" - 이름 : ");
+        Trainer[] trainer = tc.searchName(name);
+        System.out.printf("%s님의 현재 급여는 %d원 입니다.",trainer[0].getName(),trainer[0].getPay());
+    }
+
+
+        //4-5
+    public void checkManagement()
+    {
+        System.out.println("============= 근태관리 ==============");
+        System.out.println(" # 1. 출근 ");
+        System.out.println(" # 2. 퇴근 ");
+        System.out.println(" # 0. 이전으로 가기 ");
+
+        int input = inputNumber(" 메뉴 입력 : ");
+        switch (input)
+        {
+            case 1 : checkIn();break;
+            case 2 : checkOut();break;
+            case 0 : break;
+        }
+    }
+
+    public void checkIn()
+    {
+        String name = inputStr(" - 이름 : ");
+        Trainer[] trainer = tc.searchName(name);
+        System.out.println(tc.checkIn(trainer[0]));
+    }
+
+    public void checkOut()
+    {
+        String name = inputStr(" - 이름 : ");
+        Trainer[] trainer = tc.searchName(name);
+        System.out.println( tc.checkOut(trainer[0]));
+        tc.calculatePay(trainer[0]);
+    }
+
+
+
     private String inputStr(String msg) {
         System.out.printf(msg);
         return sc.next();
@@ -88,5 +133,7 @@ public class TrainerMenu {
         System.out.printf(msg);
         return sc.nextInt();
     }
+
+
 
 }

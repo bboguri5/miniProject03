@@ -16,8 +16,6 @@ public class HealthMenu {
 
     public void mainMenu() {
 
-        // 회원관리
-        // 직원관리
         System.out.println(" ================ 3 조 헬스장 관리 프로그램 ================ ");
         System.out.printf(" # 현재 보유 회원은 %d명 입니다 \n", hmc.existHealthMemberNum());
 
