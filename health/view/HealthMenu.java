@@ -1,8 +1,10 @@
 package com.kh.miniProject3.health.view;
 
+import com.kh.miniProject3.health.controller.ConsultMemberController;
 import com.kh.miniProject3.health.controller.HealthMemberController;
 import com.kh.miniProject3.health.model.vo.HealthMember;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class HealthMenu {
@@ -10,18 +12,21 @@ public class HealthMenu {
     HealthMemberController hmc;
     TrainerMenu tm = new TrainerMenu();
 
+    ConsultMemberController cc = new ConsultMemberController();
     public HealthMenu() {
         hmc = new HealthMemberController();
     }
 
-    public void mainMenu() {
+    ConsultMenu cm = new ConsultMenu();
+
+    public void mainMenu() throws FileNotFoundException {
 
         System.out.println(" ================ 3 조 헬스장 관리 프로그램 ================ ");
         System.out.printf(" # 현재 보유 회원은 %d명 입니다 \n", hmc.existHealthMemberNum());
 
         while (true) {
             System.out.println(" ===================== Main Menu ===================== ");
-            String[] mainmenu = {"# 1. 회원관리", "# 2. 직원관리", "# 3. 매출현황", "# 0. 프로그램 종료"};
+            String[] mainmenu = {"# 1. 회원관리", "# 2. 직원관리", "# 3. 매출현황", "# 4. 상담관리", "# 0. 프로그램 종료"};
 
             for (String menuStr : mainmenu) {
                 System.out.println(menuStr);
@@ -39,6 +44,9 @@ public class HealthMenu {
                 case 3:
                     salesStatus();
                     break; // 3. 매출현황
+                case 4:
+                    cm.consultMemberManagement();
+                    break; // 4. 상담관리
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
