@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Common {
     Scanner sc = new Scanner(System.in);
 
+    // 숫자 입력
     public int inputInt(String arg) {
         System.out.print(arg);
         int z = -1;
@@ -17,24 +18,26 @@ public class Common {
                 z = sc.nextInt();
                 return z;
             } catch (java.util.InputMismatchException e) {
-                System.out.print("다시 입력해주세요 \n 메뉴 입력 : ");
+                System.out.print("다시 입력해주세요 \n # 메뉴 입력 : ");
                 sc.nextLine(); // 이거 무한루프
             }
         }
     }
 
+    // 문자열 입력
     public String inputStr(String arg) {
         System.out.print(arg);
         return sc.next();
     }
 
 
-
+    // 올해 년도
     public String GetYear() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         return sdf.format(new Date());
     }
 
+    // txt 읽어와서 배열로 추출
     public String[][] readData(String targetFile)
     {
         String path = System.getProperty("user.dir") + "\\src\\com\\kh\\miniProject3\\health\\data\\" + targetFile;

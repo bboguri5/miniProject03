@@ -13,12 +13,14 @@ public class CustomerClientController {
     CustomerClient[] cc ;
     Common com ;
 
-
+    // 생성자
     public CustomerClientController() {
         cc  = new CustomerClient[SIZE];
         com = new Common();
+        saveInfo();
     }
 
+    // 상담고객 등록
     public void insertCustomerClient()
     {
         System.out.println(" ===== 상담 신청 ===== ");
@@ -29,6 +31,7 @@ public class CustomerClientController {
         writeData(name, gender, phone, customerDate,"customerClient.txt");
     }
 
+    // 상담고객 정보 입력
     private void writeData(String name, char gender, String phone, String customerDate , String targetFile)  {
         String path = System.getProperty("user.dir") + "\\src\\com\\kh\\miniProject3\\health\\data\\" + targetFile;
         String str = String.format("\n%s,%s,%s,%s",name,gender,phone,com.GetYear()+customerDate);
@@ -45,6 +48,7 @@ public class CustomerClientController {
         }
     }
 
+    // 상담고객 갯수
     private int existCustomerClientNum(){
         int count = 0;
         for(CustomerClient c : cc)
@@ -56,7 +60,8 @@ public class CustomerClientController {
         return count;
     };
 
-    public CustomerClient[] printAll()
+    // 상담고객 전체 정보
+    public CustomerClient[] printAllCustomer()
     {
         saveInfo();
         int customerLength = existCustomerClientNum();
@@ -67,12 +72,12 @@ public class CustomerClientController {
         return clients;
     }
 
+    // 상담고객 각 객체별로 정보 저장
     private void saveInfo()
     {
         String[][] clientInfoList =  com.readData("customerClient.txt");
         for (int i = 0; i < clientInfoList.length ; i++) {
             String[] line = clientInfoList[i];
-            System.out.printf("%s,%s,%s,%s",line[0],line[1].charAt(0),line[2],line[3]);
             cc[i] = new CustomerClient(line[0],line[1].charAt(0),line[2],line[3]);
         }
     }

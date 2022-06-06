@@ -15,7 +15,7 @@ public class HealthMember {
 
     }
 
-    public HealthMember(int num, String name, char gender, int age, String job, int start, int month) {
+    public HealthMember(int num, String name, char gender, int age, String job, int start, int month , int locker) {
         this.id = String.format("A%02d",num);
         this.name = name;
         this.gender = gender;
@@ -23,6 +23,7 @@ public class HealthMember {
         this.job = job;
         this.start = start;
         this.month = month;
+        this.locker = locker;
     }
 
 

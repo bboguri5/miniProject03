@@ -11,6 +11,7 @@ public class TrainerController {
 
     public static final int SIZE = 5;
 
+    // 생성자
     public TrainerController() {
         t[0] = new Trainer("김철수", 26, "01012345678", 3, 15000, 5, 750000);
         t[1] = new Trainer("김홍수", 31, "01043215678", 6, 20000, 20, 6000000);
@@ -18,7 +19,7 @@ public class TrainerController {
         t[3] = new Trainer("황정아", 36, "01056781234", 10, 25000, 15, 3750000);
     }
 
-    // 직원수를 세어준다
+    // 직원수
     public int existTrainerNum() {
         int count = 0;
         for (int i = 0; i < 10; i++) {
@@ -30,13 +31,13 @@ public class TrainerController {
         return count;
     }
 
-    // 회원정보 저장한다
+    // 회원정보 등록
     public void insertTrainer(String name, int age, String number, int carrer, int timePay) {
         int count = existTrainerNum();
         t[count] = new Trainer(name, age, number, carrer, timePay, 0, 0);
     }
 
-    //회원이름찾기
+    // 트레이너 이름찾기
     public Trainer[] searchName(String name) {
 
         // 임시 배열 생성
@@ -82,11 +83,12 @@ public class TrainerController {
         return false;
     }
 
-    // 트레이너 정보
+    // 트레이너 전체 정보
     public Trainer[] printAll() {
         return t;
     }
 
+    // 출근
     public String checkIn(Trainer trainer) {
         SimpleDateFormat simdate = new SimpleDateFormat("HHmm");
         Date date = new Date();
@@ -94,6 +96,7 @@ public class TrainerController {
         return trainer.getGoToWork();
     }
 
+    // 퇴근
     public String checkOut(Trainer trainer) {
         SimpleDateFormat simdate = new SimpleDateFormat("HHmm");
         Date date = new Date();
@@ -104,7 +107,7 @@ public class TrainerController {
     return trainer.getLeaveWork();
     }
 
-
+    // 근무 총일수
     public void calculatePay(Trainer trainer)
     {
         int total = 0;
@@ -117,6 +120,12 @@ public class TrainerController {
 
         trainer.setGoToWork(null);
         trainer.setLeaveWork(null);
+    }
+
+    // 트레이너 최대 등록 인원
+    public boolean checkFull()
+    {
+        return (existTrainerNum() == SIZE);
     }
 
 }

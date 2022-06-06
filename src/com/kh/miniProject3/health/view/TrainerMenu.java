@@ -9,20 +9,22 @@ import java.util.Scanner;
 
 public class TrainerMenu {
 
-    private Scanner sc = new Scanner(System.in);
+    Common com ;
     private TrainerController tc = new TrainerController();
 
-    // 4번
+    // 4. 직원 메뉴
     public void trainerManagement() {
 
+        com = new Common();
+        System.out.println("============== 직원 관리 ==============");
         System.out.println("\n# 1. 직원등록");
         System.out.println("# 2. 직원삭제");
         System.out.println("# 3. 직원정보");
-        System.out.println("# 4. 급여관리");
+        System.out.println("# 4. 급여조회");
         System.out.println("# 5. 근태관리");
         System.out.println("# 0. 메인으로 돌아가기");
 
-        int menu = inputNumber("- 메뉴 입력: ");
+        int menu = com.inputInt("- # 메뉴 입력: ");
         switch (menu) {
             case 1:
                 insertTrainer();
@@ -46,29 +48,35 @@ public class TrainerMenu {
         }
     }
 
-    // 4-1
+    // 4-1. 직원등록
     private void insertTrainer() {
+
+        if(tc.checkFull())
+        {
+            System.out.println("# 트레이너 정보 입력 갯수가 초과되었습니다.");
+            return;
+        }
 
         System.out.println("\n# 새 트레이너를 등록합니다");
 
-        String name = inputStr("이름: ");
-        int age = inputNumber("나이: ");
-        String number = inputStr("휴대폰 번호: ");
-        int career = inputNumber("경력: ");
-        int timePay = inputNumber("시급 : ");
+        String name = com.inputStr("이름: ");
+        int age = com.inputInt("나이: ");
+        String number = com.inputStr("휴대폰 번호: ");
+        int career = com.inputInt("경력: ");
+        int timePay = com.inputInt("시급 : ");
         tc.insertTrainer(name, age, number, career, timePay);
 
         System.out.println("\n# 트레이너등록 성공!");
     }
-    // 4-2
+    // 4-2. 직원삭제
     private void deleteTrainer() {
 
-        String targetName = inputStr("\n 삭제 대상 트레이너:");
+        String targetName = com.inputStr("\n 삭제 대상 트레이너:");
 
         tc.delete(targetName);
         System.out.printf("[%s]트레이너님의 데이터가 삭제되었습니다", targetName);
     }
-    // 4-3
+    // 4-3. 직원조회
     public void informationTrainer() {
 
         Trainer[] Trainers = tc.printAll();
@@ -81,16 +89,16 @@ public class TrainerMenu {
 
     }
 
-    //4-4
+    //4-4. 급여조회
     public void managementPayroll()
     {
-        String name = inputStr(" - 이름 : ");
+        String name = com.inputStr(" - 이름 : ");
         Trainer[] trainer = tc.searchName(name);
         System.out.printf("%s님의 현재 급여는 %d원 입니다.",trainer[0].getName(),trainer[0].getPay());
     }
 
 
-        //4-5
+        //4-5 근태관리
     public void checkManagement()
     {
         System.out.println("============= 근태관리 ==============");
@@ -98,7 +106,7 @@ public class TrainerMenu {
         System.out.println(" # 2. 퇴근 ");
         System.out.println(" # 0. 이전으로 가기 ");
 
-        int input = inputNumber(" 메뉴 입력 : ");
+        int input = com.inputInt(" # 메뉴 입력 : ");
         switch (input)
         {
             case 1 : checkIn();break;
@@ -107,33 +115,20 @@ public class TrainerMenu {
         }
     }
 
+    // 출근
     public void checkIn()
     {
-        String name = inputStr(" - 이름 : ");
+        String name = com.inputStr(" - 이름 : ");
         Trainer[] trainer = tc.searchName(name);
         System.out.println(tc.checkIn(trainer[0]));
     }
 
+    //퇴근
     public void checkOut()
     {
-        String name = inputStr(" - 이름 : ");
+        String name = com.inputStr(" - 이름 : ");
         Trainer[] trainer = tc.searchName(name);
         System.out.println( tc.checkOut(trainer[0]));
         tc.calculatePay(trainer[0]);
     }
-
-
-
-    private String inputStr(String msg) {
-        System.out.printf(msg);
-        return sc.next();
-    }
-
-    private int inputNumber(String msg) {
-        System.out.printf(msg);
-        return sc.nextInt();
-    }
-
-
-
 }
