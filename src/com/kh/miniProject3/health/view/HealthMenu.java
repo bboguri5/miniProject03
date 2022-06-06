@@ -10,8 +10,8 @@ import com.kh.miniProject3.health.model.vo.HealthMember;
 public class HealthMenu {
     HealthMemberController hmc;
     TrainerMenu tm;
-    Common com ;
-    CustomerClientController ccc ;
+    Common com;
+    CustomerClientController ccc;
 
     public HealthMenu() {
 
@@ -21,14 +21,38 @@ public class HealthMenu {
         ccc = new CustomerClientController();
     }
 
+    public void login() {
+        String id, pw;
+        boolean login = true;
+
+        while (login) {
+            id = com.inputStr(" - 아이디 : ");
+            if (!id.equals("kim")) {
+                System.out.println("아이디가 틀렸습니다!");
+            } else {
+                while (true) {
+                    pw = com.inputStr(" - 비밀번호 : ");
+                    if (!pw.equals("1234")) {
+                        System.out.println("비밀번호가 틀렸습니다");
+                    } else {
+                        login = false;
+                        break;
+                    }
+                }
+            }
+        }
+        mainMenu();
+    }
+
     public void mainMenu() {
 
-        System.out.println(" ================ 3 조 헬스장 관리 프로그램 ================ ");
+        System.out.println();
+        System.out.println(" ====== 3조 헬스 관리 시스템 ====== ");
         System.out.printf(" # 현재 보유 회원은 %d명 입니다 \n", hmc.existHealthMemberNum());
 
         while (true) {
-            System.out.println(" ===================== Main Menu ===================== ");
-            String[] mainmenu = {"# 1. 회원관리", "# 2. 직원관리","# 3. 상담관리 ","# 4. 매출현황", "# 0. 프로그램 종료"};
+            System.out.println(" ========== Main Menu ========== ");
+            String[] mainmenu = {" # 1. 회원관리", " # 2. 직원관리", " # 3. 상담관리 ", " # 4. 매출현황", " # 0. 프로그램 종료"};
 
             for (String menuStr : mainmenu) {
                 System.out.println(menuStr);
@@ -57,11 +81,12 @@ public class HealthMenu {
             }
         }
     }
+
     //region 1. 회원관리
     public void administerMember() {
-        String[] memberManagerMenu = {"# 1. 회원등록", "# 2. 회원수정", "# 3. 회원검색", "# 4. 회원탈퇴", "# 5. 모든회원조회 " ,"# 6. 락커등록" ,"# 7. 락커조회","# 0. 메인메뉴로 돌아가기"};
+        String[] memberManagerMenu = {" # 1. 회원등록", " # 2. 회원수정", " # 3. 회원검색", " # 4. 회원탈퇴", " # 5. 모든회원조회 ", " # 6. 락커등록", " # 7. 락커조회", " # 0. 메인메뉴로 돌아가기"};
 
-        System.out.println(" ===================== 회원관리 ===================== ");
+        System.out.println(" ========== 회원 관리 ========== ");
 
         for (String menuStr : memberManagerMenu) {
             System.out.println(menuStr);
@@ -81,9 +106,15 @@ public class HealthMenu {
             case 4:
                 deleteMember();
                 break;
-            case 5: printAllMember();break;
-            case 6: insertLockerNum();break;
-            case 7: printAllLocker();break;
+            case 5:
+                printAllMember();
+                break;
+            case 6:
+                insertLockerNum();
+                break;
+            case 7:
+                printAllLocker();
+                break;
 
             case 0:
                 break;
@@ -94,31 +125,24 @@ public class HealthMenu {
 
     //region 1-1. 회원등록
     public void insertMember() {
-        if(hmc.checkFull())
-        {
+        if (hmc.checkFull()) {
             System.out.println("# 회원 정보 입력 갯수가 초과되었습니다.");
             return;
         }
         String name = com.inputStr(" - 이름 : ");
-        char gender = ' ';
-        while (true) {
-            gender = com.inputStr(" - 수정 할 성별(남/여) : ").charAt(0);
-            if (gender == '남' || gender == '여') {
-                break;
-            } else
-                System.out.println("다시 입력해주세요.");
-        }
+        char gender = com.getGender();
         int age = com.inputInt(" - 나이 : ");
         String job = com.inputStr(" - 직업 : ");
         int start = com.inputInt(" - 시작날짜(ex:20220101) : ");
         int month = 0;
-        while(true){
+        while (true) {
             month = com.inputInt(" - 수강개월 : ");
-            if(month <= 12 )
+            if (month <= 12)
                 break;
         }
         hmc.insertMember(name, gender, age, job, start, month * 100);
     }
+
     //endregion 회원등록
     //region 1-2. 회원수정
     public void updateMember() {
@@ -130,7 +154,7 @@ public class HealthMenu {
             return;
 
         while (true) {
-            System.out.println(" ===================== 회원수정 ===================== ");
+            System.out.println(" ========== 회원 수정 ========== ");
             String[] updateMembers = {"1. 이름 수정", "2. 나이 수정", "3. 성별 수정", "4. 직업 수정", "5. 시작날짜 수정", "6. 개월수 수정", "0. 이전으로 가기"};
 
             for (String menuStr : updateMembers) {
@@ -194,11 +218,12 @@ public class HealthMenu {
     private String updateMonth(HealthMember hm) {
         return hmc.updateMonth(hm, com.inputInt(" - 수정 할 개월수 : ")) ? hm.inform() : "수정이 실패하였습니다.";
     }
+
     //endregion 회원수정
     //region 1-3. 회원검색
     public void searchMember() {
 
-        System.out.println(" ===================== 회원검색 ===================== ");
+        System.out.println(" ========== 회원 검색 ========== ");
         System.out.println(" 1. 이름으로 검색");
         System.out.println(" 2. 고객코드로 검색");
         System.out.println(" 0. 이전으로 가기");
@@ -219,6 +244,7 @@ public class HealthMenu {
 
     // 이름 검색
     public void searchName() {
+        System.out.println();
         for (HealthMember m : hmc.searchName(com.inputStr(" - 이름 : "))) {
             System.out.println(m.inform());
         }
@@ -226,8 +252,11 @@ public class HealthMenu {
 
     // 아이디 검색
     public void searchId() {
+
+        System.out.println();
         System.out.println(hmc.searchId(com.inputStr(" - 아이디 : ")).inform());
     }
+
     //endregion 회원검색
     //region 1-4. 회원탈퇴
     public void deleteMember() {
@@ -235,70 +264,70 @@ public class HealthMenu {
         if (hm == null)
             return;
         hmc.deleteOne(hm.getId());
+        System.out.println();
+        System.out.println("삭제 완료되었습니다.");
         printAllMember();
     }
+
     //endregion 회원탈퇴
     //region 1-5. 모든회원조회
     public void printAllMember() {
         System.out.println();
         System.out.println(" ==================================== 전체 회원 정보 ==================================== ");
-        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
         for (HealthMember m : hmc.printAllMember()) {
             System.out.println(m.inform());
         }
-        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println();
     }
+
     //endregion 모든회원조회
     //region 1-6~7. 락커
-    public void insertLockerNum()
-    {
+    public void insertLockerNum() {
         String id = getId();
         hmc.insertLockerNum(id);
     }
-    public void printAllLocker()
-    {
-        for(HealthMember m : hmc.printAllLocker())
-        {
+
+    public void printAllLocker() {
+        System.out.println();
+        System.out.println("==================================== 전체 락커 정보 ==================================== ");
+        for (HealthMember m : hmc.printAllLocker()) {
             System.out.println(m.inform());
         }
     }
+
     //endregion 락커
     //endregion 회원관리
     //2. 직원관리
     //region 3. 상담관리
-    public void administerConsulting()
-    {
-        System.out.println("============== 상담관리 ==================");
-        String[] consultingMembers = {"# 1. 상담 등록", "# 2. 상담 조회", "# 0. 이전으로 가기"};
-        for(String m : consultingMembers)
-        {
+    public void administerConsulting() {
+        System.out.println(" ========== 상담 관리 ========== ");
+        String[] consultingMembers = {" # 1. 상담 등록", " # 2. 상담 조회", " # 0. 이전으로 가기"};
+        for (String m : consultingMembers) {
             System.out.println(m);
         }
 
         int input = com.inputInt(" # 메뉴 입력 : ");
-        switch (input)
-        {
-            case 1 :
+        switch (input) {
+            case 1:
                 insertCustomerClient(); // 상담 등록
                 break;
-            case 2 :
+            case 2:
                 printCustomerClients();
                 break;
-            case 0 : break;
+            case 0:
+                break;
         }
     }
 
     // 상담고객 등록
-    public void insertCustomerClient()
-    {
+    public void insertCustomerClient() {
         ccc.insertCustomerClient();
     }
+
     // 전체 상담고객 조회
-    public void printCustomerClients()
-    {
-        for(CustomerClient c : ccc.printAllCustomer())
-        {
+    public void printCustomerClients() {
+        System.out.println("==================================== 전체 상담 정보 ==================================== ");
+        for (CustomerClient c : ccc.printAllCustomer()) {
             System.out.println(c.inform());
         }
     }
@@ -307,9 +336,9 @@ public class HealthMenu {
 
     private void salesStatus() {
 
-        String[] salesStatusMenu = {"# 1. 월별 매출", "# 2. 이번년도 매출", "# 0. 메인메뉴로 돌아가기"};
+        String[] salesStatusMenu = {" # 1. 월별 매출", " # 2. 이번년도 매출", " # 0. 메인메뉴로 돌아가기"};
 
-        System.out.println(" ===================== 매출현황 ===================== ");
+        System.out.println(" ========== 매출 현황 ========== ");
 
         for (String menuStr : salesStatusMenu) {
             System.out.println(menuStr);
@@ -317,33 +346,35 @@ public class HealthMenu {
         int input = com.inputInt(" # 메뉴 입력 : ");
 
         switch (input) {
-            case 1 :
+            case 1:
                 monthStatus();
                 break;
-            case 2 :
+            case 2:
                 yearStatus();
                 break;
-            case 0 :
+            case 0:
                 break;
         }
     }
 
     // 연매출
-    private  void yearStatus()
-    {
+    private void yearStatus() {
         System.out.printf("이번년도 총 매출액 : %s 원", hmc.yearStatus());
         System.out.println();
     }
+
     // 월매출
     private void monthStatus() {
-        String[] monthStatus = {" ", "1월 : ", "2월 : ", "3월 : ", "4월 : ", "5월 : ", "6월 : ", "7월 : ", "8월 : ", "9월 : ", "10월 : ", "11월 : ", "12월 : ", };
+        String[] monthStatus = {" ", "1월 : ", "2월 : ", "3월 : ", "4월 : ", "5월 : ", "6월 : ", "7월 : ", "8월 : ", "9월 : ", "10월 : ", "11월 : ", "12월 : ",};
         int[] a = hmc.lastMonth();
         for (int i = 1; i <= 12; i++) {
             System.out.printf(" %s %d 원", monthStatus[i], a[i]);
             System.out.println();
         }
     }
-   //endregion 매출현황
+
+    //endregion 매출현황
+
     // 유효한 아이디 추출
     public String getId() {
         String name = "";

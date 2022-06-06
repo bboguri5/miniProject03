@@ -151,7 +151,7 @@ public class HealthMemberController {
 
     // 멤버 최대등록 초과 체크
     public boolean checkFull() {
-        return (existHealthMemberNum() == SIZE);
+        return (existHealthMemberNum()+1 == SIZE);
     }
     //endregion
     //region 락커
@@ -163,7 +163,6 @@ public class HealthMemberController {
         int count = 0;
 
         for (int i = 0; i < memberLength; i++) {
-            System.out.println(i);
             if (hm[i].getLocker() != 0) members[count++] = hm[i];
         }
         return members; // 락커가 있는 멤버만 나와야함.
@@ -172,15 +171,21 @@ public class HealthMemberController {
     // 락커 사용 등록
     public void insertLockerNum(String id) {
         HealthMember m = searchId(id);
+        boolean check = false;
         while (true) {
             int rn = (int) (Math.random() * SIZE + 1);
-            if (m.getLocker() == 0 && !isDuplicate(rn)) {
-                m.setLocker(rn);
+            if(m.getLocker() != 0)
+            {
+                System.out.println("이미 락커가 있습니다.");
                 break;
             }
-        }
 
-        System.out.println("수정 완료 : " + m.inform());
+            if (!isDuplicate(rn)) {
+                m.setLocker(rn);
+                System.out.println(" 등록 완료 : " + m.inform());
+                return;
+            }
+        }
     }
 
     // 락커 중복 체크

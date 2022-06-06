@@ -35,7 +35,7 @@ public class HealthMember {
         if(m > 12) {
             last = start + 10000 + month - 1200;
         }
-        return String.format("[ 고객코드 : %s | 이름 : %s | 성별 : %s | 나이 : %d | 직업 : %s | 시작날짜 %d | 마지막날짜 : %d | 락커유무 : %s ] \n"
+        return String.format("[ 고객코드 : %s | 이름 : %s | 성별 : %s | 나이 : %d | 직업 : %s | 시작날짜 %d | 마지막날짜 : %d | 락커 : %s ]"
                 ,id,name,gender,age,job,start,last,lock);
     }
 

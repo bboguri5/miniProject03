@@ -25,10 +25,12 @@ public class CustomerClientController {
     {
         System.out.println(" ===== 상담 신청 ===== ");
         String name = com.inputStr(" - 이름 : ");
-        char gender = com.inputStr(" - 성별 : ").charAt(0);
+        char gender = com.getGender();
         String phone = com.inputStr(" - 휴대폰 번호 : ");
         String customerDate = com.inputStr(" - 상담 예약 일자 : ");
         writeData(name, gender, phone, customerDate,"customerClient.txt");
+
+        System.out.println("상담 접수 완료");
     }
 
     // 상담고객 정보 입력

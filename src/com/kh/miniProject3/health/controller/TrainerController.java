@@ -104,12 +104,11 @@ public class TrainerController {
 
         int count = trainer.getWorkDays();
         trainer.setWorkDays(++count);
-    return trainer.getLeaveWork();
+        return trainer.getLeaveWork();
     }
 
     // 근무 총일수
-    public void calculatePay(Trainer trainer)
-    {
+    public void calculatePay(Trainer trainer) {
         int total = 0;
         int gotowork = Integer.parseInt(trainer.getGoToWork());
         int leavework = Integer.parseInt(trainer.getLeaveWork());
@@ -123,9 +122,8 @@ public class TrainerController {
     }
 
     // 트레이너 최대 등록 인원
-    public boolean checkFull()
-    {
-        return (existTrainerNum() == SIZE);
+    public boolean checkFull() {
+        return (existTrainerNum() + 1 == SIZE);
     }
 
 }

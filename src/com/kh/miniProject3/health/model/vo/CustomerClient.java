@@ -26,7 +26,7 @@ public class CustomerClient {
 
     public String inform()
     {
-        return String.format("[ 이름 : %s | 성별 : %s | 휴대폰 번호 : %s | 상담 날짜 : %s ] \n"
+        return String.format("[ 이름 : %s | 성별 : %s | 휴대폰 번호 : %s | 상담 날짜 : %s ]"
                 ,name,gender,phone,customerDate);
     }
 

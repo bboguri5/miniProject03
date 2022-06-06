@@ -16,15 +16,15 @@ public class TrainerMenu {
     public void trainerManagement() {
 
         com = new Common();
-        System.out.println("============== 직원 관리 ==============");
-        System.out.println("\n# 1. 직원등록");
-        System.out.println("# 2. 직원삭제");
-        System.out.println("# 3. 직원정보");
-        System.out.println("# 4. 급여조회");
-        System.out.println("# 5. 근태관리");
-        System.out.println("# 0. 메인으로 돌아가기");
+        System.out.println(" ========== 직원 관리 ========== ");
+        System.out.println(" # 1. 직원등록");
+        System.out.println(" # 2. 직원삭제");
+        System.out.println(" # 3. 직원정보");
+        System.out.println(" # 4. 급여조회");
+        System.out.println(" # 5. 근태관리");
+        System.out.println(" # 0. 메인으로 돌아가기");
 
-        int menu = com.inputInt("- # 메뉴 입력: ");
+        int menu = com.inputInt(" # 메뉴 입력: ");
         switch (menu) {
             case 1:
                 insertTrainer();
@@ -94,14 +94,17 @@ public class TrainerMenu {
     {
         String name = com.inputStr(" - 이름 : ");
         Trainer[] trainer = tc.searchName(name);
-        System.out.printf("%s님의 현재 급여는 %d원 입니다.",trainer[0].getName(),trainer[0].getPay());
+        String result = trainer.length > 0 ? String.format("%s님의 현재 급여는 %d원 입니다.",trainer[0].getName(),trainer[0].getPay())
+                : "이름이 유효하지 않습니다.";
+
+        System.out.println(result);
     }
 
 
         //4-5 근태관리
     public void checkManagement()
     {
-        System.out.println("============= 근태관리 ==============");
+        System.out.println(" ========== 근태 관리 ========== ");
         System.out.println(" # 1. 출근 ");
         System.out.println(" # 2. 퇴근 ");
         System.out.println(" # 0. 이전으로 가기 ");
@@ -120,7 +123,8 @@ public class TrainerMenu {
     {
         String name = com.inputStr(" - 이름 : ");
         Trainer[] trainer = tc.searchName(name);
-        System.out.println(tc.checkIn(trainer[0]));
+        String result = trainer.length > 0 ? String.format(" 출근 시간 : %s ",tc.checkIn(trainer[0])) : "이름이 유효하지 않습니다.";
+        System.out.println(result);
     }
 
     //퇴근
@@ -128,7 +132,13 @@ public class TrainerMenu {
     {
         String name = com.inputStr(" - 이름 : ");
         Trainer[] trainer = tc.searchName(name);
-        System.out.println( tc.checkOut(trainer[0]));
-        tc.calculatePay(trainer[0]);
+        if(trainer.length > 0)
+        {
+            System.out.println(" 퇴근 시간 : " + tc.checkOut(trainer[0]));
+            tc.calculatePay(trainer[0]);
+        }
+        else{
+            System.out.println("이름이 유효하지 않습니다.");
+        }
     }
 }

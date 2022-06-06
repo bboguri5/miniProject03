@@ -64,6 +64,18 @@ public class Common {
         return strArr.toArray(String[][]::new);
     }
 
+    public char getGender()
+    {
+        char gender;
+        while (true) {
+            gender = inputStr(" - 성별(남/여) : ").charAt(0);
+            if (gender == '남' || gender == '여') {
+                break;
+            } else
+                System.out.println("다시 입력해주세요.");
+        }
+        return gender;
+    }
 
 
 

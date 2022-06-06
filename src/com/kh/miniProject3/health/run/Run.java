@@ -8,6 +8,6 @@ public class Run {
     public static void main(String[] args) {
 
         HealthMenu hmm = new HealthMenu();
-        hmm.mainMenu();
+        hmm.login();
     }
 }
