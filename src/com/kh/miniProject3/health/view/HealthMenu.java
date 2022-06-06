@@ -1,17 +1,31 @@
 package com.kh.miniProject3.health.view;
 
-import com.kh.miniProject3.health.controller.HealthMemberController;
-import com.kh.miniProject3.health.model.vo.HealthMember;
 
+import com.kh.miniProject3.health.controller.CustomerClientController;
+import com.kh.miniProject3.health.controller.HealthMemberController;
+import com.kh.miniProject3.health.model.vo.CustomerClient;
+import com.kh.miniProject3.health.model.vo.HealthMember;
+import com.kh.miniProject3.health.run.Test;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class HealthMenu {
     Scanner sc = new Scanner(System.in);
+
     HealthMemberController hmc;
-    TrainerMenu tm = new TrainerMenu();
+    TrainerMenu tm;
+
+    CustomerClientController ccc ;
 
     public HealthMenu() {
+
         hmc = new HealthMemberController();
+        tm = new TrainerMenu();
+        ccc = new CustomerClientController();
     }
 
     public void mainMenu() {
@@ -21,21 +35,27 @@ public class HealthMenu {
 
         while (true) {
             System.out.println(" ===================== Main Menu ===================== ");
-            String[] mainmenu = {"# 1. 회원관리", "# 2. 직원관리", "# 0. 프로그램 종료"};
+            String[] mainmenu = {"# 1. 회원관리", "# 2. 직원관리","# 3. 상담관리 ","# 4. 매출현황", "# 0. 프로그램 종료"};
 
             for (String menuStr : mainmenu) {
                 System.out.println(menuStr);
             }
 
+            
             int input = inputInt(" 메뉴 입력 : ");
 
             switch (input) {
                 case 1:
-                    administrateMember();
+                    administerMember();
                     break; // 1. 회원관리
                 case 2:
                     tm.trainerManagement();
                     break; // 2. 직원관리
+                case 3:
+                    administerConsulting(); // 3. 상담관리
+                    break;
+                case 4:
+                    // 매출현황
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
@@ -45,26 +65,9 @@ public class HealthMenu {
         }
     }
 
-    public int inputInt(String arg) {
-        System.out.print(arg);
-        int z = -1;
-        while (true) {
-            try {
-                z = sc.nextInt();
-                return z;
-            } catch (java.util.InputMismatchException e) {
-                System.out.print("다시 입력해주세요 \n 메뉴 입력 : ");
-                sc.nextLine(); // 이거 무한루프
-            }
-        }
-    }
 
-    public String inputStr(String arg) {
-        System.out.print(arg);
-        return sc.next();
-    }
-
-    public void administrateMember() {
+    //region 회원관리 및 회원수정
+    public void administerMember() {
         String[] memberManagerMenu = {"# 1. 회원등록", "# 2. 회원수정", "# 3. 회원검색", "# 4. 회원탈퇴","# 0. 메인메뉴로 돌아가기"};
 
             System.out.println(" ===================== 회원관리 ===================== ");
@@ -95,6 +98,87 @@ public class HealthMenu {
                     System.out.println("잘못 입력되었습니다. 다시 입력해주세요.");
             }
     }
+
+    public void updateMember() {
+
+        String str = "";
+        HealthMember hm = getTarget();
+
+        if (hm == null)
+            return;
+
+        while (true) {
+            System.out.println(" ===================== 회원수정 ===================== ");
+            String[] updateMembers = {"1. 이름 수정", "2. 나이 수정", "3. 성별 수정", "4. 직업 수정", "5. 시작날짜 수정", "6. 개월수 수정", "0. 이전으로 가기"};
+
+            for (String menuStr : updateMembers) {
+                System.out.println(menuStr);
+            }
+
+            int input = inputInt(" 메뉴 입력 : ");
+
+            switch (input) {
+                case 1:
+                    str = updateName(hm);
+                    break;
+                case 2:
+                    str = updateAge(hm);
+                    break;
+                case 3:
+                    str = updateGender(hm);
+                    break;
+                case 4:
+                    str = updateJob(hm);
+                    break;
+                case 5:
+                    str = updateStart(hm);
+                    break;
+                case 6:
+                    str = updateMonth(hm);
+                    break;
+                case 0:
+                    return;
+            }
+            System.out.println("수정 결과 : " + str);
+        }
+    }
+    //endregion 회원관리
+
+
+    //region 상담관리
+    public void administerConsulting()
+    {
+        String[] consultingMembers = {"# 1. 상담 등록", "# 2. 상담 조회", "# 0. 이전으로 가기"};
+        for(String m : consultingMembers)
+        {
+            System.out.println(m);
+        }
+
+        int input = inputInt(" 메뉴 입력 : ");
+        switch (input)
+        {
+            case 1 :
+                insertCustomerClient(); // 상담 등록
+                break;
+            case 2 :
+                printCustomerClients();
+                break;
+            case 0 : break;
+        }
+    }
+
+    public void insertCustomerClient()
+    {
+        ccc.insertCustomerClient();
+    }
+    public void printCustomerClients()
+    {
+        for(CustomerClient c : ccc.printAll())
+        {
+            System.out.println(c.inform());
+        }
+    }
+    //endregion 상담관리
 
     public void printAll() {
         System.out.println();
@@ -159,51 +243,6 @@ public class HealthMenu {
 
     public void searchId() {
         System.out.println(hmc.searchId(inputStr(" - 아이디 : ")).inform());
-    }
-
-    public void updateMember() {
-
-        String str = "";
-        HealthMember hm = getTarget();
-
-        if (hm == null)
-            return;
-
-        while (true) {
-            System.out.println(" ===================== 회원수정 ===================== ");
-            String[] updateMembers = {"1. 이름 수정", "2. 나이 수정", "3. 성별 수정", "4. 직업 수정", "5. 시작날짜 수정", "6. 개월수 수정", "0. 이전으로 가기"};
-
-            for (String menuStr : updateMembers) {
-                System.out.println(menuStr);
-            }
-
-            int input = inputInt(" 메뉴 입력 : ");
-
-            switch (input) {
-                case 1:
-                    str = updateName(hm);
-                    break;
-                case 2:
-                    str = updateAge(hm);
-                    break;
-                case 3:
-                    str = updateGender(hm);
-                    break;
-                case 4:
-                    str = updateJob(hm);
-                    break;
-                case 5:
-                    str = updateStart(hm);
-                    break;
-                case 6:
-                    str = updateMonth(hm);
-                    break;
-                case 0:
-                    return;
-            }
-            System.out.println("수정 결과 : " + str);
-        }
-
     }
 
     private String updateName(HealthMember hm) {
@@ -279,5 +318,22 @@ public class HealthMenu {
 
     }
 
+    public int inputInt(String arg) {
+        System.out.print(arg);
+        int z = -1;
+        while (true) {
+            try {
+                z = sc.nextInt();
+                return z;
+            } catch (java.util.InputMismatchException e) {
+                System.out.print("다시 입력해주세요 \n 메뉴 입력 : ");
+                sc.nextLine(); // 이거 무한루프
+            }
+        }
+    }
 
+    public String inputStr(String arg) {
+        System.out.print(arg);
+        return sc.next();
+    }
 }

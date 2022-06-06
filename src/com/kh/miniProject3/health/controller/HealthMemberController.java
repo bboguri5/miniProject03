@@ -8,10 +8,10 @@ public class HealthMemberController {
 
     public HealthMemberController() {
 
-        hm[0] = new HealthMember(1,"황정아",'F',31,"무직",20220301,1200);
-        hm[1] = new HealthMember(2,"손성빈",'M',22,"회사원",20220101,300);
-        hm[2] = new HealthMember(3,"최성렬",'M',23,"회사원",20220121,400);
-        hm[3] = new HealthMember(4,"최성렬",'M',23,"회사원",20220121,400);
+        hm[0] = new HealthMember(1,"황정아",'남',31,"무직",20220301,1200);
+        hm[1] = new HealthMember(2,"손성빈",'여',22,"회사원",20220101,300);
+        hm[2] = new HealthMember(3,"최성렬",'여',23,"회사원",20220121,400);
+        hm[3] = new HealthMember(4,"최성렬",'여',23,"회사원",20220121,400);
 
     }
 

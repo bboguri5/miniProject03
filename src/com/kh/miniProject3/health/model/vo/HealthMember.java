@@ -6,7 +6,6 @@ public class HealthMember {
     private char gender;
     private int age;
     private String job;
-
     private int month;
     private int start;
     private int last;
